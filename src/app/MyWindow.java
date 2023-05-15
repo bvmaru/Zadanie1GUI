@@ -198,7 +198,6 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
         conPane.add(jToolBar, BorderLayout.NORTH);
         conPane.add(infoPanel, BorderLayout.SOUTH);
         conPane.add(centerPanel, BorderLayout.CENTER);
-
     }
 
     public void createJToolBar(JToolBar cjtb) {
@@ -265,6 +264,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
+        CenterPanel.changeData();
     }
 
     public static void main(String args[])
@@ -273,5 +273,6 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
         System.out.println("Start Aplikacji");
         MyWindow f = new MyWindow();
         f.setVisible(true);
+        //CenterPanel.changeData();//Do testów
     }
 }

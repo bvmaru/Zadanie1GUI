@@ -26,7 +26,7 @@ public class CenterPanel extends JPanel implements ActionListener {
     private JButton submitButton;
     // deklaracja zmiennej typu JCalendarCombo o nazwie jccData
     private JCalendarCombo jccData;
-    private JTable table;
+    private static JTable table;   //static do testów
     private TitledBorder titledBorder;
     private Border blackLine;
     private JSpinner spinnerRow, spinnerCol;
@@ -163,5 +163,11 @@ public class CenterPanel extends JPanel implements ActionListener {
      */
     public Insets getInsets() {
         return new Insets(5,10,10,10);
+    }
+
+
+    //Testowa funkcja
+    static void changeData(){
+        table.getModel().setValueAt(1, 1, 1);
     }
 }
