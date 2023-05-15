@@ -22,12 +22,34 @@ public class CenterPanel extends JPanel implements ActionListener {
     private JPanel northPanel, southPanel;
     private JTextField paramTextField;
     private JTextArea resultTextArea;
-    private JLabel paramLabel;
+    private JLabel paramLabel, paramLabel1, paramLabel2;
     private JButton submitButton;
     // deklaracja zmiennej typu JCalendarCombo o nazwie jccData
     private JCalendarCombo jccData;
+    private JTable table;
     private TitledBorder titledBorder;
     private Border blackLine;
+    private JSpinner spinnerRow, spinnerCol;
+
+   private Object[][] data = {
+            {0,0,0,0,0},
+            {0,0,5,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,7},
+            {0,0,0,0,0},
+    };
+
+    private SpinnerModel value1 =
+            new SpinnerNumberModel(1, //initial value
+                    1, //minimum value
+                    5, //maximum value
+                    1); //step
+    private SpinnerModel value2 =
+            new SpinnerNumberModel(1, //initial value
+                    1, //minimum value
+                    5, //maximum value
+                    1); //step
+    private String[] nazwyKolumn = {"1", "2", "3", "4", "5"};
     /**
      * Konstruktor bezparametrowy klasy <CODE>InfoBottomPanel<CODE>
      */
@@ -60,8 +82,12 @@ public class CenterPanel extends JPanel implements ActionListener {
         jp.setBorder(titledBorder);
         jp.setLayout(new FlowLayout());
 
-        paramLabel = new JLabel("Parametr 1");
+        paramLabel = new JLabel("Wprowadź liczbę");
         paramTextField = new JTextField(10);
+        spinnerRow = new JSpinner(value1);
+        paramLabel1 = new JLabel("Numer Wiersza");
+        spinnerCol= new JSpinner(value2);
+        paramLabel2 = new JLabel("Numer Kolumny");
         submitButton = new JButton("Submit");
         submitButton.addActionListener(this);
 
@@ -75,9 +101,15 @@ public class CenterPanel extends JPanel implements ActionListener {
         // ustawienie formatu daty
         jccData.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 
+        table = new JTable(data, nazwyKolumn);
+
         jp.add(paramLabel);
         jp.add(paramTextField);
-        jp.add(jccData);
+        jp.add(spinnerRow);
+        jp.add(paramLabel1);
+        jp.add(spinnerCol);
+        jp.add(paramLabel2);
+        jp.add(table);
         jp.add(submitButton);
         return jp;
     }
