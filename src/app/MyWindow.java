@@ -264,7 +264,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        InfoBottomPanel.setInfoString(CenterPanel.changeData());
+        CenterPanel.summedValue();
     }
 
     public static void main(String args[])

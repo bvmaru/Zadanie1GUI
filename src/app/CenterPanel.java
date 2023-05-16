@@ -21,9 +21,9 @@ public class CenterPanel extends JPanel implements ActionListener {
     private static final long serialVersionUID = 1L;
     private JPanel northPanel, southPanel;
     private static JTextField paramTextField;
-    private JTextArea resultTextArea;
+    private static JTextArea resultTextArea;
     private JLabel paramLabel, paramLabel1, paramLabel2;
-    private JButton submitButton;
+    private JButton dodajButton, wyzerujButton, wypelnijButton;
     // deklaracja zmiennej typu JCalendarCombo o nazwie jccData
     private JCalendarCombo jccData;
     private static JTable table;   //static do testów
@@ -32,11 +32,11 @@ public class CenterPanel extends JPanel implements ActionListener {
     private static JSpinner spinnerRow, spinnerCol;
 
    private Object[][] data = {
-            {0,0,0,0,0},
-            {0,0,0,0,0},
-            {0,0,0,0,0},
-            {0,0,0,0,0},
-            {0,0,0,0,0},
+            {(float)0,(float)0,(float)0,(float)0,(float)0},
+            {(float)0,(float)0,(float)0,(float)0,(float)0},
+            {(float)0,(float)0,(float)0,(float)0,(float)0},
+            {(float)0,(float)0,(float)0,(float)0,(float)0},
+            {(float)0,(float)0,(float)0,(float)0,(float)0},
     };
 
     private SpinnerModel value1 =
@@ -88,8 +88,12 @@ public class CenterPanel extends JPanel implements ActionListener {
         paramLabel1 = new JLabel("Numer Wiersza");
         spinnerCol= new JSpinner(value2);
         paramLabel2 = new JLabel("Numer Kolumny");
-        submitButton = new JButton("Submit");
-        submitButton.addActionListener(this);
+        dodajButton = new JButton("Dodaj");
+        dodajButton.addActionListener(this);
+        wyzerujButton = new JButton("Wyzeruj");
+        wyzerujButton.addActionListener(this);
+        wypelnijButton = new JButton("Wypelnij");
+        wypelnijButton.addActionListener(this);
 
         // utworzenie instacji obiektu JCalendar
         jccData = new JCalendarCombo(
@@ -110,7 +114,9 @@ public class CenterPanel extends JPanel implements ActionListener {
         jp.add(spinnerCol);
         jp.add(paramLabel2);
         jp.add(table);
-        jp.add(submitButton);
+        jp.add(dodajButton);
+        jp.add(wyzerujButton);
+        jp.add(wypelnijButton);
         return jp;
     }
     /**
@@ -139,22 +145,12 @@ public class CenterPanel extends JPanel implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if(ae.getSource() == submitButton) {
-            String param = paramTextField.getText();
-            // Pobranie daty do obiektu typu String
-            // Miesiace liczone sa od 0 wiec trzeba dodac 1
-            Calendar cal = jccData.getCalendar();
-            String data = ""+cal.get(Calendar.YEAR)+"-";
-            int miesiac = cal.get(Calendar.MONTH)+1;
-            if(miesiac <= 9) data = data+"0"+String.valueOf(miesiac)+"-";
-            else data = data+String.valueOf(miesiac)+"-";
-            int dzien = cal.get(Calendar.DAY_OF_MONTH);
-            if(dzien <= 9) data = data+"0"+String.valueOf(dzien);
-            else data = data+String.valueOf(dzien);
-
-            // zapisanie danych w polu TextArea
-            resultTextArea.append("Parametr: "+param+"\n");
-            resultTextArea.append("Data: "+data+"\n");
+        if(ae.getSource() == dodajButton) {
+            changeData();
+        } else if (ae.getSource() == wyzerujButton) {
+            clearTable();
+        } else if (ae.getSource() == wypelnijButton) {
+            fillTable();
         }
     }
     /**
@@ -165,16 +161,82 @@ public class CenterPanel extends JPanel implements ActionListener {
         return new Insets(5,10,10,10);
     }
 
-    static String changeData(){
+    static void changeData(){
         String inputText = paramTextField.getText();
         try{
             float inputNumber = Float.parseFloat(inputText);
             table.getModel().setValueAt(inputNumber, ((Integer)spinnerRow.getValue())-1, ((Integer)spinnerCol.getValue())-1);
-            return "Wartość zmieniona";
+            resultTextArea.append("Wartość "+inputNumber+" została wpisana do komórki w: "+((Integer)spinnerRow.getValue()) + " k: " + ((Integer)spinnerCol.getValue()) +"\n");
         } catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(null,"wprowadzona wartość nie jest liczbą","Błąd", JOptionPane.WARNING_MESSAGE);
-            return "wprowadzona wartość nie jest liczbą";
         }
+    }
+
+    static void clearTable(){
+        for(int w=0; w<5; w++){
+            for(int k=0; k<5; k++){
+                table.getModel().setValueAt((float)0, w, k);
+            }
+        }
+        resultTextArea.append("Tabela została wyzerowana\n");
+    }
+
+    static void fillTable(){
+        Random rand = new Random();
+        for(int w=0; w<5; w++){
+            for(int k=0; k<5; k++){
+                table.getModel().setValueAt(((float)rand.nextInt(100)), w, k);
+            }
+        }
+        resultTextArea.append("Tabela została wypełniona losowymi wartościami\n");
+    }
+
+    static void minValue(){
+        float bufor = ((float)table.getModel().getValueAt(0,0));
+        for(int w=0; w<5; w++){
+            for(int k=0; k<5; k++){
+                if(bufor>((float)table.getModel().getValueAt(w,k))){
+                    bufor=((float)table.getModel().getValueAt(w,k));
+                }
+            }
+        }
+        resultTextArea.append("Najmniejsza wartość w tabeli to: "+bufor+"\n");
+    }
+
+    static void maxValue(){
+        float bufor = ((float)table.getModel().getValueAt(0,0));
+        for(int w=0; w<5; w++){
+            for(int k=0; k<5; k++){
+                if(bufor<((float)table.getModel().getValueAt(w,k))){
+                    bufor=((float)table.getModel().getValueAt(w,k));
+                }
+            }
+        }
+        resultTextArea.append("Najmniejsza wartość w tabeli to: "+bufor+"\n");
+    }
+
+    static void averageValue(){
+        float bufor = 0;
+        float div = 25;
+
+        for(int w=0; w<5; w++){
+            for(int k=0; k<5; k++){
+                bufor += ((float)table.getModel().getValueAt(w,k));
+            }
+        }
+        bufor = bufor/div;
+        resultTextArea.append("Średnia wartość: "+bufor+"\n");
+    }
+
+    static void summedValue(){
+        float bufor = 0;
+
+        for(int w=0; w<5; w++){
+            for(int k=0; k<5; k++){
+                bufor += ((float)table.getModel().getValueAt(w,k));
+            }
+        }
+        resultTextArea.append("Suma wartości: "+bufor+"\n");
     }
 
 }
