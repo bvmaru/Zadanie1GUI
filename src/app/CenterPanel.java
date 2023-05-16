@@ -20,7 +20,7 @@ public class CenterPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private JPanel northPanel, southPanel;
-    private JTextField paramTextField;
+    private static JTextField paramTextField;
     private JTextArea resultTextArea;
     private JLabel paramLabel, paramLabel1, paramLabel2;
     private JButton submitButton;
@@ -29,13 +29,13 @@ public class CenterPanel extends JPanel implements ActionListener {
     private static JTable table;   //static do testów
     private TitledBorder titledBorder;
     private Border blackLine;
-    private JSpinner spinnerRow, spinnerCol;
+    private static JSpinner spinnerRow, spinnerCol;
 
    private Object[][] data = {
             {0,0,0,0,0},
-            {0,0,5,0,0},
             {0,0,0,0,0},
-            {0,0,0,0,7},
+            {0,0,0,0,0},
+            {0,0,0,0,0},
             {0,0,0,0,0},
     };
 
@@ -165,9 +165,16 @@ public class CenterPanel extends JPanel implements ActionListener {
         return new Insets(5,10,10,10);
     }
 
-
-    //Testowa funkcja
-    static void changeData(){
-        table.getModel().setValueAt(1, 1, 1);
+    static String changeData(){
+        String inputText = paramTextField.getText();
+        try{
+            float inputNumber = Float.parseFloat(inputText);
+            table.getModel().setValueAt(inputNumber, ((Integer)spinnerRow.getValue())-1, ((Integer)spinnerCol.getValue())-1);
+            return "Wartość zmieniona";
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null,"wprowadzona wartość nie jest liczbą","Błąd", JOptionPane.WARNING_MESSAGE);
+            return "wprowadzona wartość nie jest liczbą";
+        }
     }
+
 }

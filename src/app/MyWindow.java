@@ -155,11 +155,11 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
         sumaMenuItem = createJMenuItem(labelCalcMenuItem[0],miconSuma,
                 KeyStroke.getKeyStroke(KeyEvent.VK_L,ActionEvent.ALT_MASK),true);
         sredniaMenuItem = createJMenuItem(labelCalcMenuItem[1],miconSrednia,
-                KeyStroke.getKeyStroke(KeyEvent.VK_W,ActionEvent.ALT_MASK),false);
+                KeyStroke.getKeyStroke(KeyEvent.VK_W,ActionEvent.ALT_MASK),true);
         minMenuitem = createJMenuItem(labelCalcMenuItem[2],miconMin,
-                KeyStroke.getKeyStroke(KeyEvent.VK_D,ActionEvent.ALT_MASK),false);
+                KeyStroke.getKeyStroke(KeyEvent.VK_D,ActionEvent.ALT_MASK),true);
         maxMenuitem = createJMenuItem(labelCalcMenuItem[3],miconMax,
-                KeyStroke.getKeyStroke(KeyEvent.VK_F,ActionEvent.ALT_MASK),false);
+                KeyStroke.getKeyStroke(KeyEvent.VK_F,ActionEvent.ALT_MASK),true);
 
         // utworzenie obiektow MenuItem dla helpMenu
         helpContextMenuItem = createJMenuItem(labelHelpMenuItem[0],
@@ -264,7 +264,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        CenterPanel.changeData();
+        InfoBottomPanel.setInfoString(CenterPanel.changeData());
     }
 
     public static void main(String args[])
@@ -273,6 +273,5 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
         System.out.println("Start Aplikacji");
         MyWindow f = new MyWindow();
         f.setVisible(true);
-        //CenterPanel.changeData();//Do testów
     }
 }
