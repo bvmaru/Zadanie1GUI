@@ -8,8 +8,8 @@ import javax.swing.*;
 
 
 public class MyWindow extends JFrame implements ActionListener, Runnable {
-    private static final int WIDTH = 600;
-    private static final int HEIGHT = 450;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
     private JPanel conPane;
 
     //MyLogger logger = null;
@@ -264,8 +264,10 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        CenterPanel.summedValue();
+        CenterPanel.saveToFile();
+        InfoBottomPanel.setInfoString(CenterPanel.saveInfo);
     }
+
 
     public static void main(String args[])
     {

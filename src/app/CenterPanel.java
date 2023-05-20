@@ -3,12 +3,16 @@ package app;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import org.freixas.jcalendar.JCalendarCombo;
+
 /**
  * Program <code>MyWindow</code>
  * Klasa <code>CenterPanel</code> definiujaca centralny panel
@@ -22,8 +26,8 @@ public class CenterPanel extends JPanel implements ActionListener {
     private JPanel northPanel, southPanel;
     private static JTextField paramTextField;
     private static JTextArea resultTextArea;
-    private JLabel paramLabel, paramLabel1, paramLabel2;
-    private JButton dodajButton, wyzerujButton, wypelnijButton;
+    private JLabel paramLabel, paramLabel1, paramLabel2, listaLabel;
+    private JButton dodajButton, wyzerujButton, wypelnijButton, saveButton, listaButton;
     // deklaracja zmiennej typu JCalendarCombo o nazwie jccData
     private JCalendarCombo jccData;
     private static JTable table;   //static do testów
@@ -50,6 +54,13 @@ public class CenterPanel extends JPanel implements ActionListener {
                     5, //maximum value
                     1); //step
     private String[] nazwyKolumn = {"1", "2", "3", "4", "5"};
+    String[] obliczenia= { "Srednia","Suma","Wartość minimalna",
+            "Wartość maksymalna"};
+
+    static String saveInfo = "Start aplikacji";
+
+    private JList lista;
+
     /**
      * Konstruktor bezparametrowy klasy <CODE>InfoBottomPanel<CODE>
      */
@@ -94,6 +105,12 @@ public class CenterPanel extends JPanel implements ActionListener {
         wyzerujButton.addActionListener(this);
         wypelnijButton = new JButton("Wypelnij");
         wypelnijButton.addActionListener(this);
+        saveButton = new JButton("Zapisz");
+        saveButton.addActionListener(this);
+        listaLabel = new JLabel("Wybierz operację");
+        lista = new JList(obliczenia);
+        listaButton = new JButton("Oblicz");
+        listaButton.addActionListener(this);
 
         // utworzenie instacji obiektu JCalendar
         jccData = new JCalendarCombo(
@@ -117,6 +134,10 @@ public class CenterPanel extends JPanel implements ActionListener {
         jp.add(dodajButton);
         jp.add(wyzerujButton);
         jp.add(wypelnijButton);
+        jp.add(saveButton);
+        jp.add(listaLabel);
+        jp.add(lista);
+        jp.add(listaButton);
         return jp;
     }
     /**
@@ -151,11 +172,23 @@ public class CenterPanel extends JPanel implements ActionListener {
             clearTable();
         } else if (ae.getSource() == wypelnijButton) {
             fillTable();
+        } else if (ae.getSource() == saveButton) {
+        saveToFile();
+        } else if (ae.getSource() == listaButton) {
+            if(lista.getSelectedValue() == obliczenia[0]){
+                averageValue();
+            } else if (lista.getSelectedValue() == obliczenia[1]) {
+                summedValue();
+            } else if (lista.getSelectedValue() == obliczenia[2]) {
+                minValue();
+            } else if (lista.getSelectedValue() == obliczenia[3]) {
+                maxValue();
+            }
         }
     }
     /**
      * Metoda okreslajaca wartosci odstepow od krawedzi panelu
-     * (top,left,bottom,right)
+     * (top,left,bottom,right) b.getSelectedValue()
      */
     public Insets getInsets() {
         return new Insets(5,10,10,10);
@@ -212,7 +245,7 @@ public class CenterPanel extends JPanel implements ActionListener {
                 }
             }
         }
-        resultTextArea.append("Najmniejsza wartość w tabeli to: "+bufor+"\n");
+        resultTextArea.append("Największa wartość w tabeli to: "+bufor+"\n");
     }
 
     static void averageValue(){
@@ -237,6 +270,41 @@ public class CenterPanel extends JPanel implements ActionListener {
             }
         }
         resultTextArea.append("Suma wartości: "+bufor+"\n");
+    }
+
+    static void saveToFile(){
+
+        String toSave = "";
+        for(int w=0; w<5; w++){
+            for(int k=0; k<5; k++){
+                    toSave +=(table.getModel().getValueAt(w,k))+"  ";
+            }
+            toSave+="\n\n";
+        }
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("."));
+
+        int response = fileChooser.showSaveDialog(null);
+
+        if(response == JFileChooser.APPROVE_OPTION){
+            File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+            if(!fileChooser.getSelectedFile().getAbsolutePath().toLowerCase().endsWith(".txt"))
+            {
+                file = new File(fileChooser.getSelectedFile().getAbsolutePath() + ".txt");
+            }
+            try{
+                FileWriter writer = new FileWriter(file);
+                writer.write(toSave);
+                writer.close();
+                saveInfo = "Zapisano dane do pliku";
+            }
+            catch (IOException e){
+                e.printStackTrace();
+                saveInfo = "Zapis danych nie powiódł się";
+            }
+        }
+
     }
 
 }

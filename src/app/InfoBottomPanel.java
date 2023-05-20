@@ -34,8 +34,8 @@ public class InfoBottomPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
         // Utworzenie etykiet tekstowych
-        infoLabel = new JLabel("Status:");
-        dbLabel = new JLabel("Logowanie:");
+        infoLabel = new JLabel("Info:");
+        dbLabel = new JLabel("Status:");
         userLabel= new JLabel("User:");
 
         // Utworzenie obiektow TextField
@@ -57,9 +57,9 @@ public class InfoBottomPanel extends JPanel {
         this.add(Box.createHorizontalStrut(10));
         this.add(dbInfoTF);
         this.add(Box.createHorizontalStrut(20));
-        this.add(userLabel);
-        this.add(Box.createHorizontalStrut(10));
-        this.add(userInfoTF);
+        //this.add(userLabel);
+        //this.add(Box.createHorizontalStrut(10));
+        //this.add(userInfoTF);
     }
     /**
      * Publiczna metoda ustawiajaca zmienna infoString
