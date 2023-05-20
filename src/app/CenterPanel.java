@@ -13,13 +13,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import org.freixas.jcalendar.JCalendarCombo;
 
-/**
- * Program <code>MyWindow</code>
- * Klasa <code>CenterPanel</code> definiujaca centralny panel
- * aplikacji zawierajacy glowna funkcjonalnosc aplikacji
- * @author
- * @version 1.0	15/12/2010
- */
+
 public class CenterPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;

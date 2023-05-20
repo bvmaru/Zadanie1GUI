@@ -8,13 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-/**
- * Program <code>MyWindow</code>
- * Klasa <code>InfoBottomPanel</code> definiujÄ…ca dolny panel
- * aplikacji zawierajacy informacje o realizowanych zadaniach
- * @author
- * @version 1.0	15/12/2010
- */
+
 public class InfoBottomPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
