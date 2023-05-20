@@ -42,7 +42,7 @@ public class InfoBottomPanel extends JPanel {
         infoTF = new JTextField("Start aplikacji");
         infoTF.setMinimumSize(new Dimension(200,20));
         infoTF.putClientProperty("JComponent.sizeVariant", "small");
-        dbInfoTF = new JTextField("OFF");
+        dbInfoTF = new JTextField("ON");
         dbInfoTF.putClientProperty("JComponent.sizeVariant", "small");
         dbInfoTF.setMinimumSize(new Dimension(30,20));
         userInfoTF = new JTextField("");

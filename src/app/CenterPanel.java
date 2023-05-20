@@ -173,7 +173,7 @@ public class CenterPanel extends JPanel implements ActionListener {
         } else if (ae.getSource() == wypelnijButton) {
             fillTable();
         } else if (ae.getSource() == saveButton) {
-        saveToFile();
+            saveToFile();
         } else if (ae.getSource() == listaButton) {
             if(lista.getSelectedValue() == obliczenia[0]){
                 averageValue();
@@ -297,11 +297,11 @@ public class CenterPanel extends JPanel implements ActionListener {
                 FileWriter writer = new FileWriter(file);
                 writer.write(toSave);
                 writer.close();
-                saveInfo = "Zapisano dane do pliku";
+                InfoBottomPanel.setInfoString("Zapisano dane do pliku");
             }
             catch (IOException e){
                 e.printStackTrace();
-                saveInfo = "Zapis danych nie powiódł się";
+                InfoBottomPanel.setInfoString("Zapis danych nie powiódł się");
             }
         }
 

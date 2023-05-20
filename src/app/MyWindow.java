@@ -5,6 +5,8 @@ import java.awt.print.PageFormat;
 import java.awt.print.PrinterJob;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 
 public class MyWindow extends JFrame implements ActionListener, Runnable {
@@ -18,7 +20,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
      */
     JMenuBar menuBar;
     JMenu fileMenu, editMenu, viewMenu, calcMenu, helpMenu;
-    JMenuItem fileExitMenuItem, helpContextMenuItem, helpAboutMenuItem, sumaMenuItem, sredniaMenuItem, minMenuitem, maxMenuitem;
+    JMenuItem fileExitMenuItem, fileSaveMenuItem, helpContextMenuItem, helpAboutMenuItem, sumaMenuItem, sredniaMenuItem, minMenuitem, maxMenuitem;
 
     //JCheckBoxMenuItem viewStatusBarMenuItem, viewJToolBarMenuItem;
 
@@ -34,7 +36,6 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
     String[] labelMenu = {"Plik", "Edycja", "Widok", "Obliczenia", "Pomoc"};
     String[] labelFileMenuItem = {"Zamknij","Zapisz"};
     String[] labelCalcMenuItem = {"Suma","Srednia","Min","Max"};
-    String[] labelViewMenuItem = {"Ukryj pasek statusu", "Ukryj pasek narz�dziowy"};
     String[] labelHelpMenuItem = {"Kontekst pomocy", "Informacje o programie"};
 
     /**
@@ -42,13 +43,10 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
      */
 
     String[] tooltipFileMenu ={"Zamknij","Zapisz"};
-            String[] tooltipCalcMenu = {"Dodaj wartość do tabeli", "Wyzeruj tabelę",
-            "Zapisz zawartość tabeli do pliku", "Wyświetl sumę wszystkich elementów tablicy",
-            "Wyświetl średnią z wszystkich elementów tablicy", "wartość min", "wartość Max"};
+    String[] tooltipCalcMenu = {"Oblicz sumę wszystkich komórek tabeli", "Oblicz średnią",
+            "Znajdź najmniejszy element tabeli", "Znajdź największy element tabeli",
+            };
 
-    //String[] tooltipFileMenu = {"Dodaj wartość do tabeli", "Wyzeruj tabelę",
-      //      "Zapisz zawartość tabeli do pliku", "Wyświetl sumę wszystkich elementów tablicy",
-         //   "Wyświetl średnią z wszystkich elementów tablicy", "wartość min", "wartość Max"};
     String[] tooltipHelpMenu = {"Uruchomienie pomocy", "Informacje o programie"};
 
     Icon iconSuma, iconSrednia, iconMin, iconMax, iconExit, iconHelpContext, iconAbout, iconSave;
@@ -150,6 +148,8 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 
         fileExitMenuItem = createJMenuItem(labelFileMenuItem[0],mIconExit,
                 KeyStroke.getKeyStroke(KeyEvent.VK_X,ActionEvent.ALT_MASK),true);
+        fileSaveMenuItem = createJMenuItem(labelFileMenuItem[1],miconSave,
+                KeyStroke.getKeyStroke(KeyEvent.VK_S,ActionEvent.ALT_MASK),true);
 
         // utworzenie MenuItem dla calc
         sumaMenuItem = createJMenuItem(labelCalcMenuItem[0],miconSuma,
@@ -170,6 +170,7 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 
         // dodanie utworzonych elementow menu dopaska menu JMenuBar
         fileMenu.add(fileExitMenuItem);
+        fileMenu.add(fileSaveMenuItem);
         calcMenu.add(sumaMenuItem);
         calcMenu.add(sredniaMenuItem);
         calcMenu.add(minMenuitem);
@@ -264,8 +265,19 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        CenterPanel.saveToFile();
-        InfoBottomPanel.setInfoString(CenterPanel.saveInfo);
+        if(ae.getSource() == jtbSuma || ae.getSource() == sumaMenuItem) {
+            CenterPanel.summedValue();
+        } else if (ae.getSource() == jtbSrednia || ae.getSource() == sredniaMenuItem) {
+            CenterPanel.averageValue();
+        } else if (ae.getSource() == jtbMin || ae.getSource() == minMenuitem) {
+            CenterPanel.minValue();
+        } else if (ae.getSource() == jtbMax|| ae.getSource() == maxMenuitem) {
+            CenterPanel.maxValue();
+        } else if (ae.getSource() == jtbExit || ae.getSource() == fileExitMenuItem) {
+            System.exit(0);
+        }else if (ae.getSource() == jtbSave || ae.getSource() == fileSaveMenuItem) {
+            CenterPanel.saveToFile();
+        }
     }
 
 
@@ -276,4 +288,5 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
         MyWindow f = new MyWindow();
         f.setVisible(true);
     }
+
 }
