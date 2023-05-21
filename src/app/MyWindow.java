@@ -14,6 +14,9 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
     private static final int HEIGHT = 600;
     private JPanel conPane;
 
+    HelpWindow helpWindow = null;
+    AboutWindow aboutWindow = null;
+
     //MyLogger logger = null;
     /**
      * Zmienne tworzace menu
@@ -275,8 +278,22 @@ public class MyWindow extends JFrame implements ActionListener, Runnable {
             CenterPanel.maxValue();
         } else if (ae.getSource() == jtbExit || ae.getSource() == fileExitMenuItem) {
             System.exit(0);
-        }else if (ae.getSource() == jtbSave || ae.getSource() == fileSaveMenuItem) {
+        } else if (ae.getSource() == jtbSave || ae.getSource() == fileSaveMenuItem) {
             CenterPanel.saveToFile();
+        } else if((ae.getSource() == helpAboutMenuItem) ||
+                (ae.getSource() == jtbAbout)) {
+            if(aboutWindow != null) aboutWindow.setVisible(true);
+            else {
+                aboutWindow = new AboutWindow();
+                aboutWindow.setVisible(true);
+            }
+        } else if((ae.getSource() == helpContextMenuItem) ||
+                (ae.getSource() == jtbHelp)) {
+            if(helpWindow != null) helpWindow.setVisible(true);
+            else {
+                helpWindow = new HelpWindow();
+                helpWindow.setVisible(true);
+            }
         }
     }
 

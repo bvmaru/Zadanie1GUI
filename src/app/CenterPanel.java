@@ -82,7 +82,7 @@ public class CenterPanel extends JPanel implements ActionListener {
         JPanel jp = new JPanel();
         blackLine = BorderFactory.createLineBorder(Color.gray);
         titledBorder = BorderFactory.createTitledBorder(blackLine,
-                "Parmetry wejsciowe");
+                "Parametry wejsciowe");
         titledBorder.setTitleJustification(TitledBorder.CENTER);
         jp.setBorder(titledBorder);
         jp.setLayout(new FlowLayout());
@@ -103,6 +103,7 @@ public class CenterPanel extends JPanel implements ActionListener {
         saveButton.addActionListener(this);
         listaLabel = new JLabel("Wybierz operację");
         lista = new JList(obliczenia);
+        lista.setBackground(Color.lightGray.brighter());
         listaButton = new JButton("Oblicz");
         listaButton.addActionListener(this);
 
